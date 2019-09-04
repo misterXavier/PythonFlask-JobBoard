@@ -2,7 +2,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Job Board</title>
+    <title>application Board</title>
   </head>
   <body>
     <div class="container top">
@@ -15,7 +15,7 @@
 </html>
 
 <!-- templates/_marcos.html -->
-<!-- show_job -->
+<!-- show_application -->
 <div class="card adjust-height">
   <header class="card-header">
     <p class="card-header-title">
@@ -31,7 +31,7 @@
 {% block content %}
   <div class="columns">
     <div class="column">
-      <h1>Jobs</h1>
+      <h1>applications</h1>
     </div>
     <div class="column is-one-fifth">
     </div>
@@ -40,7 +40,7 @@
 
 <!-- templates/employer.html -->
 {% block content %}
-  <h2>Jobs</h2>
+  <h2>applications</h2>
 
   <h2>Reviews</h2>
     {# TODO: Remove comment and add for loop
@@ -71,7 +71,7 @@
   <h1>New Review</h1>
   <form method="post">
     <div class="field">
-      <label class="label">Job Title</label>
+      <label class="label">application Title</label>
       <div class="control">
         <input class="input" type="text" name="title" id="title" required>
       </div>

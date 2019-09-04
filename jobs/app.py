@@ -32,34 +32,34 @@ def close_connection(exception):
 
 
 @app.route('/')
-@app.route('/jobs')
+@app.route('/applications')
 
-def jobs():
-	jobs = execute_sql('SELECT job.id, job.title, job.description, job.salary, employer.id as employer_id, employer.name as employer_name FROM job JOIN employer ON employer.id = job.employer_id') 
-	return render_template('index.html',jobs=jobs)
+def applications():
+	applications = execute_sql('SELECT application.id, application.title, application.description, application.details, team.id as team_id, team.name as team_name FROM application JOIN team ON team.id = application.team_id') 
+	return render_template('index.html',applications=applications)
 
-@app.route('/job/<job_id>')
-def job(job_id):
-	job = execute_sql('SELECT job.id, job.title, job.description, job.salary, employer.id as employer_id, employer.name as employer_name FROM job JOIN employer ON employer.id = job.employer_id WHERE job.id = ?',[job_id],single=True)
-	return render_template('job.html',job=job)
+@app.route('/application/<application_id>')
+def application(application_id):
+	application = execute_sql('SELECT application.id, application.title, application.description, application.details, team.id as team_id, team.name as team_name FROM application JOIN team ON team.id = application.team_id WHERE application.id = ?',[application_id],single=True)
+	return render_template('application.html',application=application)
 
 
-@app.route('/employer/<employer_id>')
-def employer(employer_id):
-	employer = execute_sql('SELECT * FROM employer WHERE id=?',[employer_id],single=True)
-	jobs = execute_sql('SELECT job.id, job.title, job.description, job.salary FROM job JOIN employer ON employer.id = job.employer_id WHERE employer.id = ?',[employer_id])
-	reviews = execute_sql('SELECT review, rating, title, date, status FROM review JOIN employer ON employer.id = review.employer_id WHERE employer.id = ?',[employer_id])
-	return render_template('employer.html',employer=employer,jobs=jobs,reviews=reviews)
+@app.route('/team/<team_id>')
+def team(team_id):
+	team = execute_sql('SELECT * FROM team WHERE id=?',[team_id],single=True)
+	applications = execute_sql('SELECT application.id, application.title, application.description, application.details FROM application JOIN team ON team.id = application.team_id WHERE team.id = ?',[team_id])
+	reviews = execute_sql('SELECT review, rating, title, date, status FROM review JOIN team ON team.id = review.team_id WHERE team.id = ?',[team_id])
+	return render_template('team.html',team=team,applications=applications,reviews=reviews)
 
-@app.route('/employer/<employer_id>/review', methods=('GET','POST'))
-def review(employer_id):
+@app.route('/team/<team_id>/review', methods=('GET','POST'))
+def review(team_id):
 	if request.method == 'POST':
 		review = request.form['review']
 		rating = request.form['rating']
 		title = request.form['title']
 		status = request.form['status']
 		date = datetime.datetime.now().strftime("%m/%d/%Y")
-		execute_sql('INSERT INTO review (review, rating, title, date, status, employer_id) VALUES (?, ?, ?, ?, ?, ?)',(review, rating, title, date, status, employer_id),commit=True)
+		execute_sql('INSERT INTO review (review, rating, title, date, status, team_id) VALUES (?, ?, ?, ?, ?, ?)',(review, rating, title, date, status, team_id),commit=True)
 		
-		return redirect(url_for('employer',employer_id=employer_id))
-	return render_template('review.html', employer_id=employer_id)
+		return redirect(url_for('team',team_id=team_id))
+	return render_template('review.html', team_id=team_id)

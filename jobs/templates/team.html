@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
   <div>
-    <h1>{{ employer['name'] }}</h1>
+    <h1>{{ team['name'] }}</h1>
     <div class="description">
-        <p>{{ employer['description'] }}</p>
+        <p>{{ team['description'] }}</p>
     </div>
   </div>
-  <h2>Jobs</h2>
-  {{ show_jobs(jobs) }}
+  <h2>applications</h2>
+  {{ show_applications(applications) }}
   <h2>Reviews</h2>
     {% for review in reviews %}
     <div class="box">
@@ -32,7 +32,7 @@
     {% endfor %}
   <div class="columns">
     <div class="column">
-      <a href="{{ url_for('review',employer_id=employer['id']) }}" class="button is-info is-pulled-right">Create Review</a>
+      <a href="{{ url_for('review',team_id=team['id']) }}" class="button is-info is-pulled-right">Create Review</a>
     </div>
   </div>
 {% endblock %}
